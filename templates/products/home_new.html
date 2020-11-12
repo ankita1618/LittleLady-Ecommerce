@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{%  load static %}
+{% block head_title %}
+    Welcome to
+{% endblock %}
+
+
+
+{% block jumbotron %}
+{% if sliders %}
+ <div class="container" style="margin-top: -16px; margin-bottom: 19px; padding:0px;">
+{# <div class="col-sm-8 col-sm-offset-4">#}
+            <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    {% for slider in sliders %}
+                    <li data-target="#myCarousel" data-slide-to="{{ forloop.counter }}" {% if forloop.first %}class="active"{% endif %}></li>
+                    {% endfor %}
+
+                </ol>
+
+                <div class="carousel-inner">
+                   {% for slider in sliders %}
+                    <div class="item {% if forloop.first %}active{% endif %}">
+                    {% if slider.url_link %}<a href="{{ slider.url_link }}"> {% endif %}
+                        <img src="{{ slider.get_image_url }}" alt="">
+                    {% if slider.url_link %}</a> {% endif %}
+                             <div class="carousel-caption">
+                                     {% if slider.headertext %}
+                                    <h1 style="color: #0f0f0f">{{ slider.headertext|safe }}</h1>
+                                     {% endif %}
+                                    {% if slider.text %}
+                                    <p style="color: #993300">{{ slider.text|safe }}</p>
+                                    {% endif %}
+                             </div>
+                    </div>
+                {% endfor %}
+
+                </div>
+                <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+{#        </div>#}
+    </div>
+    {% endif %}
+
+
+{% endblock %}
+
+
+{% block content %}
+<div class="row">                                  {% comment %}within the row the number of columns{% endcomment %}
+
+    {% for product in products %}                      {% comment %}   <div class='{%  cycle "col-sm-12" "col-sm-4" "col-sm-8" %}'>{% endcomment %}      {% comment %}grid system{% endcomment %}
+
+      {% comment %}Thumbnail code{% endcomment %}
+
+  <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+        {% if product.productimage_set.all %}
+                {% for item in product.productimage_set.all %}  {% comment %}reverse of __str__{% endcomment %}
+            {% if item.featured %}
+                <a href="{{ product.get_absolute_url }}">
+                <img class="img-responsive" src="/media/{{ item.image }}" alt=""></a>
+            {% endif %}
+        {% endfor %}
+    {% else %}
+              <a href="{{ product.get_absolute_url }}">
+                  <img class="img-responsive" src="{% static "image/index.svg" %}"/></a>
+    {% endif %}
+      <div class="caption">
+             <a href='{{ product.get_absolute_url }}'><h5 class="card-title"><h3>{{ product.title }}</h3></h5></a>
+            <p class="card-text">{{ product.description|truncatewords:15 }}</p>
+             <p><a href="{{ product.get_absolute_url }}" class="btn btn-primary" role="button">View</a>
+{#                 <a href="" class="btn btn-default" role="button">Add</a>#}
+             </p>
+      </div>
+    </div>
+  </div>
+
+     {% cycle "" "" "</div><br/><hr/><div class='row'>" %} {% comment %}finishing div row and creating new div row{% endcomment %}
+     {% endfor %}
+
+</div>
+{% endblock %}
+
+

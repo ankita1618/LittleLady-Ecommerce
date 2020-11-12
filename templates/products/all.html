@@ -1,0 +1,45 @@
+{% extends 'base.html'%}
+
+{%  load static %}
+{% block head_title %}
+    Products ||
+{% endblock %}
+
+
+{% block content %}
+<div class="row">                                  {% comment %}within the row the number of columns{% endcomment %}
+
+    {% for product in products %}                      {% comment %}   <div class='{%  cycle "col-sm-12" "col-sm-4" "col-sm-8" %}'>{% endcomment %}      {% comment %}grid system{% endcomment %}
+
+      {% comment %}Thumbnail code{% endcomment %}
+
+  <div class="col-sm-6 col-md-3">
+    <div class="thumbnail">
+        {% if product.productimage_set.all %}
+                {% for item in product.productimage_set.all %}  {% comment %}reverse of __str__{% endcomment %}
+            {% if item.featured %}
+                <a href="{{ product.get_absolute_url }}">
+                <img class="img-responsive" src="/media/{{ item.image }}" alt=""></a>
+            {% endif %}
+        {% endfor %}
+    {% else %}
+              <a href="{{ product.get_absolute_url }}">
+                  <img class="img-responsive" src="{% static "image/index.svg" %}"/></a>
+    {% endif %}
+      <div class="caption">
+             <a href='{{ product.get_absolute_url }}'><h5 class="card-title"><h3>{{ product.title }}</h3></h5></a>
+            <p class="card-text">{{ product.description|truncatewords:15 }}</p>
+             <p><a href="{{ product.get_absolute_url }}" class="btn btn-primary" role="button">View</a>
+                 <a href="#" class="btn btn-default" role="button">Add</a>
+             </p>
+      </div>
+    </div>
+  </div>
+
+     {% cycle "" "" "" "</div><br/><hr/><div class='row'>" %} {% comment %}finishing div row and creating new div row{% endcomment %}
+     {% endfor %}
+
+</div>
+{% endblock %}
+
+

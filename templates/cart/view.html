@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{%  block content %}
+
+{% if empty %}
+<h1 style="text-align:center">{{ empty_msg }}</h1>
+
+    {% else %}
+<div class="col-sm-8 col-sm-offset-2">
+    <table class="table">
+    <thead>
+        <th>Item</th>
+        <th>Price</th>
+        <th>Qty</th>
+    <th></th>
+    </thead>
+
+    <tfoot>
+        <tr>
+        <th> Total: </th>
+            <td></td>                   {# td for columns and tr for rows #}
+        <th> {{ cart.total }}</th>
+
+        </tr>
+    </tfoot>
+    {% for item in cart.cartitem_set.all %} {% comment %}#foreign key{% endcomment %}
+
+    <tr><td>{{ item.product }}
+        {% if item.variations.all %}
+            <ul>
+                {%  for subitem in item.variations.all %}
+                    <li>{{ subitem.category | capfirst }}:{{ subitem.title | capfirst }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}</td>
+        <td>{{ item.product.price }}</td>
+        <td>{{ item.quantity }}</td>
+        <td><a href='{% url "remove_from_cart" item.id item.product.slug %}'> {{ item.id }} Remove </a> </td>
+    </tr>
+
+
+    {% endfor %}
+    </table>
+    <br>
+    <a href="{% url 'checkout' %}">CheckOut</a>
+{% endif %}
+</div>
+{% endblock %}

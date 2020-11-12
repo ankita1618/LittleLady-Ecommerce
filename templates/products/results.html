@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<h1>{{ query }} </h1>
+{#{{ products }}#}
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Image</th>
+      <th scope="col">Product</th>
+    </tr>
+  </thead>
+  <tbody>
+  {%  for product in products %}
+    <tr>
+        <td style="width:160px; height:160px;">
+
+          {%  if product.productimage_set.all %}
+                 {% for item in product.productimage_set.all %}  {% comment %}reverse of __str__{% endcomment %}
+                 {% if item.featured %}
+{#                    <div class="img-fluid" style='#}
+{#                  width: 100%;#}
+{#                  height: 100% ;height: 100%;#}
+{#                        background-image: url("/media/{{ item.image }}");#}
+{#                      background-size:cover;background-position: center; background-repeat: no-repeat; '>#}
+{##}
+{#                    </div>#}                    <a href="{{ product.get_absolute_url }}">
+                     <div class="background_img_thumb" style='height:160px;width:160px;background-image: url("/media/{{ item.image }}");'>
+                     </div>
+                 </a>
+                    {% endif %}
+                {% endfor %}
+
+
+          {% else %}
+{#          <div class="img-fluid" style='#}
+{#                  width: 100%; height: 100%;#}
+{#                    background-image:url("{% static "image/index.svg" %}");height: 548px;#}
+{#                      background-size:cover;background-position: center; background-repeat: no-repeat; '>#}
+{#          </div>#}              <a href="{{ product.get_absolute_url }}">
+              <div class="background_img_thumb">
+              </div></a>
+
+
+          {% endif %}
+        </td>
+
+        <td>
+        <a href='{{ product.get_absolute_url }}'>
+         {{ product }}  </a>
+        </td>
+
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+
+{% endblock %}

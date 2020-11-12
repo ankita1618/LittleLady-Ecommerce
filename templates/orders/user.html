@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block content %}
+
+{{ user.order_set.all }}
+{#    return all of the order associated with user #}
+
+{% endblock %}
