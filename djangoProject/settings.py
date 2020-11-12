@@ -155,8 +155,7 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
 # STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR),"static","static_root")
-# MEDIA_ROOT = '/home/ankita123/PycharmProjects/djangoProject/static/media/'
-# STATIC_ROOT = '/home/ankita123/PycharmProjects/djangoProject/static/static_root/'
+
 
 MEDIA_ROOT = BASE_DIR/"media/"
 
